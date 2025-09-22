@@ -24,3 +24,4 @@ lerna-debug.log*
 .tmp
 frontend/package-lock.json
 .cursorignore
+backend/package-lock.json
