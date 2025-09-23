@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { authService } from "@/services/authService"
 
 const getAuthSchema = (isSignUp: boolean) => z.object({
   name: isSignUp 
@@ -46,13 +47,19 @@ export function AuthForm({ mode }: AuthFormProps) {
     setError(null)
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const result = isSignUp 
+        ? await authService.signUp(data as { name: string; email: string; password: string })
+        : await authService.signIn({ email: data.email, password: data.password })
 
-      if (data.email === "error@example.com") {
-        throw new Error("Invalid credentials")
-      }
-
-      console.log("Auth successful:", data)
+      // Store the token and user data
+      authService.setToken(result.access_token)
+      authService.setUser(result.user)
+      
+      console.log("Auth successful:", result)
+      
+      // Redirect to dashboard after successful authentication
+      window.location.href = '/dashboard'
+      
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred")
     } finally {
