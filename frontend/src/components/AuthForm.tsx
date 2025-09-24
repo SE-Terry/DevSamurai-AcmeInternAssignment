@@ -17,7 +17,7 @@ const getAuthSchema = (isSignUp: boolean) => z.object({
   name: isSignUp 
     ? z.string().min(2, { message: "Name must be at least 2 characters" })
     : z.string().optional(),
-  email: z.string().email("Please enter a valid email address"),
+  email: z.email("Please enter a valid email address"),
   password: z.string().min(8, { message: "Password must be at least 8 characters" }),
 })
 

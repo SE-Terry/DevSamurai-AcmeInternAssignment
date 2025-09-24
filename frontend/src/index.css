@@ -161,3 +161,8 @@ h1 {
     @apply bg-background text-foreground;
   }
 }
+
+/* Sidebar collapse utility classes */
+.sidebar-collapsed .sidebar-collapsed\:hidden { display: none; }
+.sidebar-collapsed .sidebar-collapsed\:justify-center { justify-content: center; }
+.sidebar-expanded .sidebar-collapsed\:hidden { display: initial; }
