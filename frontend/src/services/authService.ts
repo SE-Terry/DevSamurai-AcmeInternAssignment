@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+import api from '@/lib/axios'
 
 export interface SignUpData {
   name: string
@@ -30,37 +30,23 @@ export interface ApiError {
 
 class AuthService {
   async signUp(data: SignUpData): Promise<AuthResponse> {
-    const response = await fetch(`${API_URL}/auth/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-
-    if (!response.ok) {
-      const errorData: ApiError = await response.json()
-      throw new Error(errorData.message || 'Sign up failed')
+    try {
+      const response = await api.post('/auth/signup', data)
+      return response.data
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Sign up failed'
+      throw new Error(message)
     }
-
-    return response.json()
   }
 
   async signIn(data: SignInData): Promise<AuthResponse> {
-    const response = await fetch(`${API_URL}/auth/signin`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-
-    if (!response.ok) {
-      const errorData: ApiError = await response.json()
-      throw new Error(errorData.message || 'Sign in failed')
+    try {
+      const response = await api.post('/auth/signin', data)
+      return response.data
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Sign in failed'
+      throw new Error(message)
     }
-
-    return response.json()
   }
 
   // Token management
@@ -93,27 +79,13 @@ class AuthService {
 
   // Fetch user profile using JWT token
   async getProfile(): Promise<{ user: AuthResponse['user'] }> {
-    const token = this.getToken()
-    if (!token) {
-      throw new Error('No authentication token found')
+    try {
+      const response = await api.get('/auth/me')
+      return response.data
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Failed to fetch user profile'
+      throw new Error(message)
     }
-
-    const response = await fetch(`${API_URL}/auth/me`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
-
-    if (!response.ok) {
-      if (response.status === 401) {
-        this.removeToken() // Clear invalid token
-        throw new Error('Authentication token is invalid')
-      }
-      throw new Error('Failed to fetch user profile')
-    }
-
-    return response.json()
   }
 }
 

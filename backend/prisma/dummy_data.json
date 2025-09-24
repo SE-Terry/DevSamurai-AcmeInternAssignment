@@ -1,0 +1,462 @@
+[
+  {
+    "date": "2025-08-01T00:00:00.000Z",
+    "people": 52,
+    "companies": 97
+  },
+  {
+    "date": "2025-08-02T00:00:00.000Z",
+    "people": 91,
+    "companies": 37
+  },
+  {
+    "date": "2025-08-03T00:00:00.000Z",
+    "people": 90,
+    "companies": 100
+  },
+  {
+    "date": "2025-08-04T00:00:00.000Z",
+    "people": 54,
+    "companies": 1
+  },
+  {
+    "date": "2025-08-05T00:00:00.000Z",
+    "people": 78,
+    "companies": 76
+  },
+  {
+    "date": "2025-08-06T00:00:00.000Z",
+    "people": 81,
+    "companies": 45
+  },
+  {
+    "date": "2025-08-07T00:00:00.000Z",
+    "people": 95,
+    "companies": 86
+  },
+  {
+    "date": "2025-08-08T00:00:00.000Z",
+    "people": 81,
+    "companies": 25
+  },
+  {
+    "date": "2025-08-09T00:00:00.000Z",
+    "people": 20,
+    "companies": 25
+  },
+  {
+    "date": "2025-08-10T00:00:00.000Z",
+    "people": 80,
+    "companies": 54
+  },
+  {
+    "date": "2025-08-11T00:00:00.000Z",
+    "people": 37,
+    "companies": 65
+  },
+  {
+    "date": "2025-08-12T00:00:00.000Z",
+    "people": 59,
+    "companies": 80
+  },
+  {
+    "date": "2025-08-13T00:00:00.000Z",
+    "people": 25,
+    "companies": 35
+  },
+  {
+    "date": "2025-08-14T00:00:00.000Z",
+    "people": 79,
+    "companies": 26
+  },
+  {
+    "date": "2025-08-15T00:00:00.000Z",
+    "people": 80,
+    "companies": 5
+  },
+  {
+    "date": "2025-08-16T00:00:00.000Z",
+    "people": 34,
+    "companies": 88
+  },
+  {
+    "date": "2025-08-17T00:00:00.000Z",
+    "people": 60,
+    "companies": 34
+  },
+  {
+    "date": "2025-08-18T00:00:00.000Z",
+    "people": 98,
+    "companies": 82
+  },
+  {
+    "date": "2025-08-19T00:00:00.000Z",
+    "people": 66,
+    "companies": 78
+  },
+  {
+    "date": "2025-08-20T00:00:00.000Z",
+    "people": 53,
+    "companies": 95
+  },
+  {
+    "date": "2025-08-21T00:00:00.000Z",
+    "people": 68,
+    "companies": 72
+  },
+  {
+    "date": "2025-08-22T00:00:00.000Z",
+    "people": 73,
+    "companies": 5
+  },
+  {
+    "date": "2025-08-23T00:00:00.000Z",
+    "people": 76,
+    "companies": 48
+  },
+  {
+    "date": "2025-08-24T00:00:00.000Z",
+    "people": 34,
+    "companies": 35
+  },
+  {
+    "date": "2025-08-25T00:00:00.000Z",
+    "people": 76,
+    "companies": 11
+  },
+  {
+    "date": "2025-08-26T00:00:00.000Z",
+    "people": 43,
+    "companies": 10
+  },
+  {
+    "date": "2025-08-27T00:00:00.000Z",
+    "people": 35,
+    "companies": 44
+  },
+  {
+    "date": "2025-08-28T00:00:00.000Z",
+    "people": 75,
+    "companies": 85
+  },
+  {
+    "date": "2025-08-29T00:00:00.000Z",
+    "people": 48,
+    "companies": 96
+  },
+  {
+    "date": "2025-08-30T00:00:00.000Z",
+    "people": 33,
+    "companies": 16
+  },
+  {
+    "date": "2025-08-31T00:00:00.000Z",
+    "people": 9,
+    "companies": 35
+  },
+  {
+    "date": "2025-09-01T00:00:00.000Z",
+    "people": 88,
+    "companies": 2
+  },
+  {
+    "date": "2025-09-02T00:00:00.000Z",
+    "people": 99,
+    "companies": 36
+  },
+  {
+    "date": "2025-09-03T00:00:00.000Z",
+    "people": 12,
+    "companies": 14
+  },
+  {
+    "date": "2025-09-04T00:00:00.000Z",
+    "people": 59,
+    "companies": 48
+  },
+  {
+    "date": "2025-09-05T00:00:00.000Z",
+    "people": 88,
+    "companies": 86
+  },
+  {
+    "date": "2025-09-06T00:00:00.000Z",
+    "people": 80,
+    "companies": 81
+  },
+  {
+    "date": "2025-09-07T00:00:00.000Z",
+    "people": 84,
+    "companies": 96
+  },
+  {
+    "date": "2025-09-08T00:00:00.000Z",
+    "people": 95,
+    "companies": 22
+  },
+  {
+    "date": "2025-09-09T00:00:00.000Z",
+    "people": 33,
+    "companies": 11
+  },
+  {
+    "date": "2025-09-10T00:00:00.000Z",
+    "people": 40,
+    "companies": 94
+  },
+  {
+    "date": "2025-09-11T00:00:00.000Z",
+    "people": 85,
+    "companies": 76
+  },
+  {
+    "date": "2025-09-12T00:00:00.000Z",
+    "people": 89,
+    "companies": 64
+  },
+  {
+    "date": "2025-09-13T00:00:00.000Z",
+    "people": 6,
+    "companies": 0
+  },
+  {
+    "date": "2025-09-14T00:00:00.000Z",
+    "people": 100,
+    "companies": 50
+  },
+  {
+    "date": "2025-09-15T00:00:00.000Z",
+    "people": 66,
+    "companies": 56
+  },
+  {
+    "date": "2025-09-16T00:00:00.000Z",
+    "people": 42,
+    "companies": 71
+  },
+  {
+    "date": "2025-09-17T00:00:00.000Z",
+    "people": 92,
+    "companies": 88
+  },
+  {
+    "date": "2025-09-18T00:00:00.000Z",
+    "people": 22,
+    "companies": 53
+  },
+  {
+    "date": "2025-09-19T00:00:00.000Z",
+    "people": 49,
+    "companies": 74
+  },
+  {
+    "date": "2025-09-20T00:00:00.000Z",
+    "people": 90,
+    "companies": 76
+  },
+  {
+    "date": "2025-09-21T00:00:00.000Z",
+    "people": 86,
+    "companies": 82
+  },
+  {
+    "date": "2025-09-22T00:00:00.000Z",
+    "people": 45,
+    "companies": 8
+  },
+  {
+    "date": "2025-09-23T00:00:00.000Z",
+    "people": 83,
+    "companies": 85
+  },
+  {
+    "date": "2025-09-24T00:00:00.000Z",
+    "people": 66,
+    "companies": 86
+  },
+  {
+    "date": "2025-09-25T00:00:00.000Z",
+    "people": 68,
+    "companies": 84
+  },
+  {
+    "date": "2025-09-26T00:00:00.000Z",
+    "people": 67,
+    "companies": 54
+  },
+  {
+    "date": "2025-09-27T00:00:00.000Z",
+    "people": 2,
+    "companies": 1
+  },
+  {
+    "date": "2025-09-28T00:00:00.000Z",
+    "people": 0,
+    "companies": 56
+  },
+  {
+    "date": "2025-09-29T00:00:00.000Z",
+    "people": 97,
+    "companies": 72
+  },
+  {
+    "date": "2025-09-30T00:00:00.000Z",
+    "people": 42,
+    "companies": 96
+  },
+  {
+    "date": "2025-10-01T00:00:00.000Z",
+    "people": 91,
+    "companies": 34
+  },
+  {
+    "date": "2025-10-02T00:00:00.000Z",
+    "people": 98,
+    "companies": 33
+  },
+  {
+    "date": "2025-10-03T00:00:00.000Z",
+    "people": 12,
+    "companies": 17
+  },
+  {
+    "date": "2025-10-04T00:00:00.000Z",
+    "people": 66,
+    "companies": 69
+  },
+  {
+    "date": "2025-10-05T00:00:00.000Z",
+    "people": 6,
+    "companies": 91
+  },
+  {
+    "date": "2025-10-06T00:00:00.000Z",
+    "people": 39,
+    "companies": 67
+  },
+  {
+    "date": "2025-10-07T00:00:00.000Z",
+    "people": 66,
+    "companies": 14
+  },
+  {
+    "date": "2025-10-08T00:00:00.000Z",
+    "people": 27,
+    "companies": 93
+  },
+  {
+    "date": "2025-10-09T00:00:00.000Z",
+    "people": 30,
+    "companies": 65
+  },
+  {
+    "date": "2025-10-10T00:00:00.000Z",
+    "people": 88,
+    "companies": 39
+  },
+  {
+    "date": "2025-10-11T00:00:00.000Z",
+    "people": 72,
+    "companies": 4
+  },
+  {
+    "date": "2025-10-12T00:00:00.000Z",
+    "people": 4,
+    "companies": 15
+  },
+  {
+    "date": "2025-10-13T00:00:00.000Z",
+    "people": 24,
+    "companies": 96
+  },
+  {
+    "date": "2025-10-14T00:00:00.000Z",
+    "people": 78,
+    "companies": 25
+  },
+  {
+    "date": "2025-10-15T00:00:00.000Z",
+    "people": 61,
+    "companies": 60
+  },
+  {
+    "date": "2025-10-16T00:00:00.000Z",
+    "people": 62,
+    "companies": 21
+  },
+  {
+    "date": "2025-10-17T00:00:00.000Z",
+    "people": 41,
+    "companies": 88
+  },
+  {
+    "date": "2025-10-18T00:00:00.000Z",
+    "people": 41,
+    "companies": 18
+  },
+  {
+    "date": "2025-10-19T00:00:00.000Z",
+    "people": 54,
+    "companies": 54
+  },
+  {
+    "date": "2025-10-20T00:00:00.000Z",
+    "people": 93,
+    "companies": 28
+  },
+  {
+    "date": "2025-10-21T00:00:00.000Z",
+    "people": 4,
+    "companies": 76
+  },
+  {
+    "date": "2025-10-22T00:00:00.000Z",
+    "people": 79,
+    "companies": 40
+  },
+  {
+    "date": "2025-10-23T00:00:00.000Z",
+    "people": 79,
+    "companies": 81
+  },
+  {
+    "date": "2025-10-24T00:00:00.000Z",
+    "people": 43,
+    "companies": 21
+  },
+  {
+    "date": "2025-10-25T00:00:00.000Z",
+    "people": 66,
+    "companies": 5
+  },
+  {
+    "date": "2025-10-26T00:00:00.000Z",
+    "people": 15,
+    "companies": 39
+  },
+  {
+    "date": "2025-10-27T00:00:00.000Z",
+    "people": 30,
+    "companies": 1
+  },
+  {
+    "date": "2025-10-28T00:00:00.000Z",
+    "people": 51,
+    "companies": 23
+  },
+  {
+    "date": "2025-10-29T00:00:00.000Z",
+    "people": 65,
+    "companies": 27
+  },
+  {
+    "date": "2025-10-30T00:00:00.000Z",
+    "people": 38,
+    "companies": 4
+  },
+  {
+    "date": "2025-10-31T00:00:00.000Z",
+    "people": 37,
+    "companies": 82
+  }
+]

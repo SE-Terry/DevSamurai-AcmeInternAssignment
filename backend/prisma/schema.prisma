@@ -16,3 +16,9 @@ model user {
   createdat    DateTime  @default(now())
   updatedat    DateTime  @updatedAt
 }
+
+model chart_data {
+  date      DateTime  @id
+  people    Int
+  companies Int
+}

@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
-import { Button } from '@/components/ui/button'
+import { useDispatch } from 'react-redux'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { authService } from '@/services/authService'
-import { User as UserIcon, Calendar } from 'lucide-react'
+import { User as UserIcon } from 'lucide-react'
 import Sidebar from '@/components/Sidebar'
 import AppHeader from '@/components/AppHeader'
+import DateRangeBar from '@/components/DateRangeBar'
+import LeadGenerationChart from '@/components/LeadGenerationChart'
+import { setUser } from '@/features/auth/authSlice'
+import { setActiveTab } from '@/store/slices/dateRangeSlice'
+import { useChartDataPrefetch } from '@/hooks/useChartData'
+import api from '@/lib/axios'
 
 interface AuthUser {
   id: number
@@ -42,26 +48,20 @@ const leastVisitedContacts = [
   { name: 'Lucia Bianchi', visits: 0, isCompany: false },
 ]
 
-function useLeadSummary() {
-  return useQuery({
-    queryKey: ['leadSummary'],
-    queryFn: async () => {
-      // Placeholder for future backend integration
-      // const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
-      // const res = await fetch(`${apiUrl}/leads/summary`)
-      // if (!res.ok) throw new Error('Failed to fetch lead summary')
-      // return res.json()
-      return { people: 0, companies: 0 }
-    },
-  })
-}
-
 export function Dashboard() {
-  const [user, setUser] = useState<AuthUser | null>(null)
+  const [user, setUserState] = useState<AuthUser | null>(null)
   const [loading, setLoading] = useState(true)
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [apiCallMade, setApiCallMade] = useState(false)
   const navigate = useNavigate()
-  const { data: leadSummary } = useLeadSummary()
+  const dispatch = useDispatch()
+
+  // Initialize date range on component mount
+  useEffect(() => {
+    dispatch(setActiveTab('1d'))
+  }, [dispatch])
+
+  // Prefetch other date ranges in the background for better UX
+  useChartDataPrefetch()
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -72,26 +72,53 @@ export function Dashboard() {
           return
         }
 
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
-        const response = await fetch(`${apiUrl}/auth/me`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        })
-
-        if (!response.ok) {
-          if (response.status === 401) {
-            authService.removeToken()
-            navigate('/auth/sign-in')
-            return
+        
+        const cachedUserStr = localStorage.getItem('user')
+        if (cachedUserStr) {
+          try {
+            const cachedUser = JSON.parse(cachedUserStr)
+            if (cachedUser?.id && cachedUser?.email) {
+              setUserState(cachedUser)
+              dispatch(setUser({ 
+                id: cachedUser.id,
+                name: cachedUser.name, 
+                email: cachedUser.email 
+              }))
+              setLoading(false) 
+            }
+          } catch {
+            // Invalid cached data, ignore
           }
-          throw new Error('Failed to fetch user profile')
         }
 
-        const data = await response.json()
-        setUser(data.user)
-      } catch (error) {
+        // Make API call to get fresh data and verify token (only once per component mount)
+        if (!apiCallMade) {
+          try {
+            const response = await api.get('/auth/me')
+            const userData = response.data.user
+
+            setUserState(userData)
+            
+            // Cache user data in localStorage
+            localStorage.setItem('user', JSON.stringify(userData))
+            
+            // Update Redux store with fresh user data
+            dispatch(setUser({ 
+              id: userData.id,
+              name: userData.name, 
+              email: userData.email 
+            }))
+            
+            setApiCallMade(true) // Mark that we've made the API call
+          } catch {
+            // Axios interceptor handles 401 errors automatically
+            // For other errors, clear cache and redirect
+            localStorage.removeItem('user')
+            authService.removeToken()
+            navigate('/auth/sign-in')
+          }
+        }
+      } catch {
         authService.removeToken()
         navigate('/auth/sign-in')
       } finally {
@@ -100,19 +127,15 @@ export function Dashboard() {
     }
 
     fetchUserProfile()
-  }, [navigate])
+  }, [navigate, dispatch, apiCallMade])
 
-  const handleLogout = () => {
-    authService.removeToken()
-    navigate('/auth/sign-in')
-  }
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+      <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/60 mx-auto"></div>
-          <p className="mt-4 text-white/60">Loading dashboard...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-foreground/60 mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading dashboard...</p>
         </div>
       </div>
     )
@@ -121,68 +144,30 @@ export function Dashboard() {
   if (!user) return null
 
   return (
-    <div className={`flex h-screen bg-black text-white ${sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
-      <div className={sidebarCollapsed ? 'w-[72px] transition-all' : 'w-64 transition-all'}>
-        <Sidebar userName={user.name} />
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        <AppHeader onLogout={handleLogout} onToggleSidebar={() => setSidebarCollapsed(v => !v)} isSidebarCollapsed={sidebarCollapsed} />
-
+    <SidebarProvider defaultOpen={true}>
+      <Sidebar />
+      <SidebarInset>
+        <AppHeader />
+        
         {/* Content */}
-        <main className="flex-1 p-6 overflow-auto">
-          {/* Date Range Selector */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="flex bg-gray-900 rounded-lg p-1">
-              <Button variant="ghost" size="sm" className="bg-gray-800 text-white">
-                1d
-              </Button>
-              <Button variant="ghost" size="sm" className="text-gray-400">
-                3d
-              </Button>
-              <Button variant="ghost" size="sm" className="text-gray-400">
-                7d
-              </Button>
-              <Button variant="ghost" size="sm" className="text-gray-400">
-                30d
-              </Button>
-              <Button variant="ghost" size="sm" className="text-gray-400">
-                Custom
-              </Button>
-            </div>
-            <div className="flex items-center gap-2 bg-gray-900 px-3 py-2 rounded-lg">
-              <Calendar size={16} className="text-gray-400" />
-              <span className="text-sm">Sep 23, 2025 - Sep 24, 2025</span>
-            </div>
-          </div>
+        <main className="flex-1 overflow-auto bg-background text-foreground">
+          {/* Date Range Bar */}
+          <DateRangeBar />
+          
+          {/* Main Content */}
+          <div className="p-6">
 
-          {/* Lead Generation Card */}
-          <Card className="bg-gray-900 border-gray-800 mb-8">
-            <CardHeader>
-              <CardTitle className="text-white">Lead generation</CardTitle>
-              <p className="text-gray-400 text-sm">New contacts added to the pool.</p>
-            </CardHeader>
-            <CardContent>
-              <div className="flex gap-8">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white mb-1">{leadSummary?.people ?? 0}</div>
-                  <div className="text-sm text-gray-400">People</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white mb-1">{leadSummary?.companies ?? 0}</div>
-                  <div className="text-sm text-gray-400">Companies</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Lead Generation Chart */}
+          <div className="mb-8">
+            <LeadGenerationChart />
+          </div>
 
           {/* Contact Lists */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Most Visited Contacts */}
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-white">Most visited contacts</CardTitle>
+                <CardTitle className="text-card-foreground">Most visited contacts</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -194,13 +179,13 @@ export function Dashboard() {
                             <div className="w-3 h-3 bg-white rounded-sm"></div>
                           </div>
                         ) : (
-                          <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
-                            <UserIcon size={12} className="text-gray-300" />
+                          <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+                            <UserIcon size={12} className="text-muted-foreground" />
                           </div>
                         )}
-                        <span className="text-sm text-white">{contact.name}</span>
+                        <span className="text-sm text-card-foreground">{contact.name}</span>
                       </div>
-                      <span className="text-sm text-gray-400">{contact.visits}</span>
+                      <span className="text-sm text-muted-foreground">{contact.visits}</span>
                     </div>
                   ))}
                 </div>
@@ -208,9 +193,9 @@ export function Dashboard() {
             </Card>
 
             {/* Least Visited Contacts */}
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-card border-border">
               <CardHeader>
-                <CardTitle className="text-white">Least visited contacts</CardTitle>
+                <CardTitle className="text-card-foreground">Least visited contacts</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
@@ -222,24 +207,26 @@ export function Dashboard() {
                             <div className="w-3 h-3 bg-white rounded-sm"></div>
                           </div>
                         ) : (
-                          <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
-                            <UserIcon size={12} className="text-gray-300" />
+                          <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
+                            <UserIcon size={12} className="text-muted-foreground" />
                           </div>
                         )}
-                        <span className="text-sm text-white">{contact.name}</span>
+                        <span className="text-sm text-card-foreground">{contact.name}</span>
                       </div>
-                      <span className="text-sm text-gray-400">{contact.visits}</span>
+                      <span className="text-sm text-muted-foreground">{contact.visits}</span>
                     </div>
                   ))}
                 </div>
               </CardContent>
             </Card>
           </div>
+          </div>
         </main>
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }
 
 export default Dashboard
+
 
