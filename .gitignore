@@ -27,3 +27,4 @@ frontend/package-lock.json
 .cursorignore
 backend/package-lock.json
 /vscode
+.vscode/settings.json
