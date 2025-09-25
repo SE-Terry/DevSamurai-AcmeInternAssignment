@@ -4,7 +4,7 @@ A robust NestJS backend API for the Acme Dashboard application, featuring authen
 
 ## 🚀 Live Demo
 
-**Deployed on Railway:** [https://devsamurai-acmeinternassignment-production.up.railway.app](https://devsamurai-acmeinternassignment-production.up.railway.app)
+**Deployed on Railway:** [https://devsamurai-acmeinternassignment-production.up.railway.app](https://railway.com/invite/rUH46eV_Dy-)
 
 ## 🛠️ Tech Stack
 
