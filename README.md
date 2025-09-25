@@ -4,8 +4,8 @@ A full-stack web application that replicates the Acme Dashboard interface, built
 
 ## 🚀 Live Demo
 
-- **Frontend (Vercel):** [https://dev-samurai-acme-intern-assignment.vercel.app/](https://dev-samurai-acme-intern-assignment.vercel.app/)
-- **Backend API (Railway):** [https://devsamurai-acmeinternassignment-production.up.railway.app/](https://railway.com/invite/rUH46eV_Dy-)
+- Vercel: [https://dev-samurai-acme-intern-assignment.vercel.app/](https://dev-samurai-acme-intern-assignment.vercel.app/)
+  
 > **Demo Account**
 
 You can try the dashboard instantly with the following demo credentials:
