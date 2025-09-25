@@ -34,6 +34,7 @@ export default function AppHeader() {
               aria-label="Toggle sidebar"
               onClick={toggleSidebar}
               className="text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors group"
+              data-testid="sidebar-toggle-btn"
             >
               <PanelLeft size={18} className="group-hover:hidden" />
               {isSidebarCollapsed ? (
@@ -59,6 +60,7 @@ export default function AppHeader() {
             target="_blank"
             rel="noopener noreferrer"
             className="text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors icon-inherit"
+            data-testid="linkedin-link"
           >
             <Linkedin size={18} />
           </a>
@@ -66,6 +68,7 @@ export default function AppHeader() {
             <button
               onClick={() => setGithubDropdownOpen(!githubDropdownOpen)}
               className="text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors icon-inherit flex items-center gap-1"
+              data-testid="github-dropdown-btn"
             >
               <Github size={18} />
               <ChevronDown size={12} />

@@ -33,9 +33,12 @@ class AuthService {
     try {
       const response = await api.post('/auth/signup', data)
       return response.data
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Sign up failed'
-      throw new Error(message)
+    } catch (error: any) {
+      // Preserve the original error structure for better error handling
+      if (error?.response?.data?.message) {
+        throw new Error(error.response.data.message)
+      }
+      throw new Error(error?.message || 'Sign up failed. Please try again.')
     }
   }
 
@@ -43,9 +46,12 @@ class AuthService {
     try {
       const response = await api.post('/auth/signin', data)
       return response.data
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Sign in failed'
-      throw new Error(message)
+    } catch (error: any) {
+      // Preserve the original error structure for better error handling
+      if (error?.response?.data?.message) {
+        throw new Error(error.response.data.message)
+      }
+      throw new Error(error?.message || 'Sign in failed. Please try again.')
     }
   }
 

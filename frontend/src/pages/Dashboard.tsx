@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { authService } from '@/services/authService'
-import { User as UserIcon } from 'lucide-react'
 import Sidebar from '@/components/Sidebar'
 import AppHeader from '@/components/AppHeader'
 import DateRangeBar from '@/components/DateRangeBar'
 import LeadGenerationChart from '@/components/LeadGenerationChart'
+import MostVisitedContacts from '@/components/MostVisitedContacts'
+import LeastVisitedContacts from '@/components/LeastVisitedContacts'
 import { setUser } from '@/features/auth/authSlice'
 import { setActiveTab } from '@/store/slices/dateRangeSlice'
 import { useChartDataPrefetch } from '@/hooks/useChartData'
@@ -21,32 +21,6 @@ interface AuthUser {
   createdat: string
   updatedat: string
 }
-
-const companyLogos = {
-  microsoft: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg',
-  airbnb: 'https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_Bélo.svg',
-  google: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg',
-  dropbox: 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Dropbox_logo_2017.svg',
-  intercom: 'https://upload.wikimedia.org/wikipedia/commons/1/17/Intercom_logo.svg',
-}
-
-const contacts = [
-  { name: 'Microsoft', logo: companyLogos.microsoft, visits: 1, isCompany: true },
-  { name: 'Intercom', logo: companyLogos.intercom, visits: 0, isCompany: true },
-  { name: 'Airbnb', logo: companyLogos.airbnb, visits: 0, isCompany: true },
-  { name: 'Dropbox', logo: companyLogos.dropbox, visits: 0, isCompany: true },
-  { name: 'Marie Jones', visits: 0, isCompany: false },
-  { name: 'Vivian Casey', visits: 0, isCompany: false },
-]
-
-const leastVisitedContacts = [
-  { name: 'Vivian Casey', visits: 0, isCompany: false },
-  { name: 'Intercom', logo: companyLogos.intercom, visits: 0, isCompany: true },
-  { name: 'Airbnb', logo: companyLogos.airbnb, visits: 0, isCompany: true },
-  { name: 'Dropbox', logo: companyLogos.dropbox, visits: 0, isCompany: true },
-  { name: 'Marie Jones', visits: 0, isCompany: false },
-  { name: 'Lucia Bianchi', visits: 0, isCompany: false },
-]
 
 export function Dashboard() {
   const [user, setUserState] = useState<AuthUser | null>(null)
@@ -72,7 +46,6 @@ export function Dashboard() {
           return
         }
 
-        
         const cachedUserStr = localStorage.getItem('user')
         if (cachedUserStr) {
           try {
@@ -91,7 +64,7 @@ export function Dashboard() {
           }
         }
 
-        // Make API call to get fresh data and verify token (only once per component mount)
+        // Make API call to get fresh data and verify token
         if (!apiCallMade) {
           try {
             const response = await api.get('/auth/me')
@@ -99,19 +72,19 @@ export function Dashboard() {
 
             setUserState(userData)
             
-            // Cache user data in localStorage
+            // Cache user data
             localStorage.setItem('user', JSON.stringify(userData))
             
-            // Update Redux store with fresh user data
+            // Update Redux store
             dispatch(setUser({ 
               id: userData.id,
               name: userData.name, 
               email: userData.email 
             }))
             
-            setApiCallMade(true) // Mark that we've made the API call
+            setApiCallMade(true)
           } catch {
-            // Axios interceptor handles 401 errors automatically
+            // Axios interceptor handles 401 errors
             // For other errors, clear cache and redirect
             localStorage.removeItem('user')
             authService.removeToken()
@@ -144,7 +117,7 @@ export function Dashboard() {
   if (!user) return null
 
   return (
-    <SidebarProvider defaultOpen={true}>
+    <SidebarProvider defaultOpen={true} data-testid="dashboard-page">
       <Sidebar />
       <SidebarInset>
         <AppHeader />
@@ -164,61 +137,8 @@ export function Dashboard() {
 
           {/* Contact Lists */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Most Visited Contacts */}
-            <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-card-foreground">Most visited contacts</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {contacts.map((contact, index) => (
-                    <div key={index} className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        {contact.isCompany ? (
-                          <div className="w-6 h-6 bg-orange-500 rounded flex items-center justify-center">
-                            <div className="w-3 h-3 bg-white rounded-sm"></div>
-                          </div>
-                        ) : (
-                          <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
-                            <UserIcon size={12} className="text-muted-foreground" />
-                          </div>
-                        )}
-                        <span className="text-sm text-card-foreground">{contact.name}</span>
-                      </div>
-                      <span className="text-sm text-muted-foreground">{contact.visits}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Least Visited Contacts */}
-            <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-card-foreground">Least visited contacts</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {leastVisitedContacts.map((contact, index) => (
-                    <div key={index} className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        {contact.isCompany ? (
-                          <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">
-                            <div className="w-3 h-3 bg-white rounded-sm"></div>
-                          </div>
-                        ) : (
-                          <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center">
-                            <UserIcon size={12} className="text-muted-foreground" />
-                          </div>
-                        )}
-                        <span className="text-sm text-card-foreground">{contact.name}</span>
-                      </div>
-                      <span className="text-sm text-muted-foreground">{contact.visits}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <MostVisitedContacts />
+            <LeastVisitedContacts />
           </div>
           </div>
         </main>
@@ -228,5 +148,3 @@ export function Dashboard() {
 }
 
 export default Dashboard
-
-

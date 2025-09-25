@@ -11,7 +11,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const dispatch = useDispatch()
   const theme = useSelector((state: RootState) => state.theme.theme)
 
-  // Initialize theme on mount
+  // Initialize theme on mount 
   useEffect(() => {
     const initializeTheme = () => {
       try {

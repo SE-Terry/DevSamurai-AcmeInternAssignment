@@ -3,7 +3,7 @@ import { ThemeToggle } from "@/components/ThemeToggle"
 
 export default function SignUpPage() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4 relative">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 relative" data-testid="signup-page">
       <div className="fixed bottom-4 right-4">
         <ThemeToggle />
       </div>

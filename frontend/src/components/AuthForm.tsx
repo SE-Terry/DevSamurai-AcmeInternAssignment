@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -29,9 +29,11 @@ interface AuthFormProps {
 
 export function AuthForm({ mode }: AuthFormProps) {
   const isSignUp = mode === "signup"
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
 
   const form = useForm<AuthFormData>({
     resolver: zodResolver(getAuthSchema(isSignUp)),
@@ -45,23 +47,41 @@ export function AuthForm({ mode }: AuthFormProps) {
   const onSubmit = async (data: AuthFormData) => {
     setIsLoading(true)
     setError(null)
+    setSuccess(null)
 
     try {
       const result = isSignUp 
         ? await authService.signUp(data as { name: string; email: string; password: string })
         : await authService.signIn({ email: data.email, password: data.password })
 
-      // Store the token and user data
-      authService.setToken(result.access_token)
-      authService.setUser(result.user)
+      if (isSignUp) {
+        setSuccess("Account created successfully! Please sign in to continue.")        
+        // Navigate to sign-in page after successful registration
+        setTimeout(() => {
+          navigate('/auth/sign-in')
+        }, 1500)
+      } else {
+        authService.setToken(result.access_token)
+        authService.setUser(result.user)
+        
+        setSuccess("Welcome back!")
+        
+        // Navigate to dashboard after successful sign-in
+        setTimeout(() => {
+          navigate('/dashboard')
+        }, 1000)
+      }
       
-      console.log("Auth successful:", result)
+    } catch (err: any) {
+      let errorMessage = "An unexpected error occurred"
       
-      // Redirect to dashboard after successful authentication
-      window.location.href = '/dashboard'
+      if (err?.response?.data?.message) {
+        errorMessage = err.response.data.message
+      } else if (err?.message) {
+        errorMessage = err.message
+      }
       
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred")
+      setError(errorMessage)
     } finally {
       setIsLoading(false)
     }
@@ -85,8 +105,26 @@ export function AuthForm({ mode }: AuthFormProps) {
           </Alert>
         )}
 
+        {success && (
+          <Alert className="border-green-200 bg-green-50 text-green-800">
+            <AlertDescription>{success}</AlertDescription>
+          </Alert>
+        )}
+
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+                data-testid={isSignUp ? "signup-form" : "signin-form"}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
+                    e.preventDefault()
+                    if (!isLoading) {
+                      form.handleSubmit(onSubmit)()
+                    }
+                  }
+                }}
+              >
             {isSignUp && (
               <FormField
                 control={form.control}
@@ -103,6 +141,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                           placeholder="Your full name"
                           className="pl-10"
                           disabled={isLoading}
+                          data-testid="name-input"
                         />
                       </div>
                     </FormControl>
@@ -127,6 +166,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                         placeholder="you@example.com"
                         className="pl-10"
                         disabled={isLoading}
+                        data-testid="email-input"
                       />
                     </div>
                   </FormControl>
@@ -172,6 +212,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                         placeholder="••••••••"
                         className="pl-10 pr-12"
                         disabled={isLoading}
+                        data-testid="password-input"
                       />
                       <button
                         type="button"
@@ -179,6 +220,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                         className="absolute right-1 top-1/2 -translate-y-1/2 p-1 rounded-md text-muted-foreground hover:text-foreground outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0"
                         onClick={() => setShowPassword(!showPassword)}
                         disabled={isLoading}
+                        data-testid="password-toggle-btn"
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
@@ -189,7 +231,12 @@ export function AuthForm({ mode }: AuthFormProps) {
               )}
             />
 
-            <Button type="submit" className="w-full text-primary-foreground" disabled={isLoading}>
+            <Button 
+              type="submit" 
+              className="w-full text-primary-foreground" 
+              disabled={isLoading}
+              data-testid={isSignUp ? "signup-btn" : "signin-btn"}
+            >
               {isLoading ? "Please wait..." : isSignUp ? "Sign up" : "Sign in"}
             </Button>
           </form>

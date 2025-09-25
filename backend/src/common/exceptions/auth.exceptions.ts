@@ -5,7 +5,7 @@ export class DuplicateEmailException extends HttpException {
     super(
       {
         statusCode: HttpStatus.CONFLICT,
-        message: 'User with this email already exists',
+        message: 'An account with this email already exists. Please try signing in or use a different email address.',
         error: 'Conflict',
       },
       HttpStatus.CONFLICT,
@@ -18,7 +18,7 @@ export class InvalidCredentialsException extends HttpException {
     super(
       {
         statusCode: HttpStatus.UNAUTHORIZED,
-        message: 'Invalid credentials',
+        message: 'Invalid email or password. Please check your credentials and try again.',
         error: 'Unauthorized',
       },
       HttpStatus.UNAUTHORIZED,

@@ -32,7 +32,7 @@ const authSlice = createSlice({
       state.user = {
         id,
         name,
-        displayName: name, // Default display name to actual name
+        displayName: name,
         email,
         initials: name.slice(0, 2).toUpperCase()
       }

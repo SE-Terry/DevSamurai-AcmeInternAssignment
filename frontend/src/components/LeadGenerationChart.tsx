@@ -28,7 +28,6 @@ export function LeadGenerationChart() {
   const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("people")
   const { data: chartData, isLoading, error } = useChartData()
 
-  // Optimize rendering performance
   const chartDataMemo = React.useMemo(() => chartData || [], [chartData])
 
   // Generate consistent random colors for each data point
@@ -38,7 +37,7 @@ export function LeadGenerationChart() {
     const colors: Record<string, string> = {}
     chartDataMemo.forEach((item, index) => {
       // Use index as seed for more predictable colors while still being different
-      const hue = (index * 137.5) % 360 // Golden angle for better distribution
+      const hue = (index * 137.5) % 360
       const saturation = 70 + (index % 3) * 10 // 70%, 80%, 90%
       const lightness = 55 + (index % 2) * 10 // 55%, 65%
       colors[item.date] = `hsl(${hue}, ${saturation}%, ${lightness}%)`
@@ -106,7 +105,7 @@ export function LeadGenerationChart() {
   }
 
   return (
-    <Card className="py-0 !bg-transparent !border-muted/50 !border-2">
+    <Card className="py-0 !bg-transparent !border-muted/50 !border-2" data-testid="lead-generation-chart">
       <CardHeader className="flex flex-col items-stretch border-b !p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 pt-4 pb-3 sm:!py-0">
           <CardTitle>Lead generation</CardTitle>

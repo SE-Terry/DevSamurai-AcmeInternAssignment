@@ -13,7 +13,9 @@ import { JwtStrategy } from './jwt.strategy';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET') || 'your-secret-key',
+        secret: configService.get<string>('JWT_SECRET') || (() => {
+          throw new Error('JWT_SECRET environment variable is required');
+        })(),
         signOptions: { expiresIn: '24h' },
       }),
       inject: [ConfigService],

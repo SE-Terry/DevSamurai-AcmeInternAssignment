@@ -17,7 +17,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
-    // Sanitize request body to remove sensitive data
     const sanitizedBody = this.sanitizeRequestBody(request.body);
 
     let status: number;
@@ -39,13 +38,11 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       message = 'Internal server error';
     }
 
-    // Log error without sensitive data
     this.logger.error(
       `${request.method} ${request.url} - Error: ${message}`,
       exception instanceof Error ? exception.stack : undefined,
     );
 
-    // Send sanitized error response
     response.status(status).json({
       statusCode: status,
       message: message,

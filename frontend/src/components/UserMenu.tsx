@@ -22,7 +22,6 @@ export function UserMenu({ width, leftOffset = 0, onRename, onSignOut, userDispl
   const menuRef = useRef<HTMLDivElement>(null)
   const style: CSSProperties = { width, left: leftOffset }
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node
@@ -55,6 +54,7 @@ export function UserMenu({ width, leftOffset = 0, onRename, onSignOut, userDispl
       <button
         className="w-full flex items-center gap-2 px-2 py-1.5 text-sm text-sidebar-foreground hover:bg-sidebar-accent rounded-md"
         onClick={onRename}
+        data-testid="rename-user-btn"
       >
         <Pencil size={14} className="text-sidebar-foreground/70" />
         <span>Rename</span>
@@ -70,6 +70,7 @@ export function UserMenu({ width, leftOffset = 0, onRename, onSignOut, userDispl
             className={`h-8 w-8 flex items-center justify-center rounded-full transition-colors ${theme === 'light' ? 'bg-sidebar-accent text-yellow-500' : 'text-sidebar-foreground/70 hover:text-sidebar-foreground'}`}
             onClick={() => dispatch(setTheme('light'))}
             aria-label="Light"
+            data-testid="light-theme-btn"
           >
             <Sun size={16} />
           </button>
@@ -77,6 +78,7 @@ export function UserMenu({ width, leftOffset = 0, onRename, onSignOut, userDispl
             className={`h-8 w-8 flex items-center justify-center rounded-full transition-colors ${theme === 'dark' ? 'bg-sidebar-accent text-sidebar-foreground' : 'text-sidebar-foreground/70 hover:text-sidebar-foreground'}`}
             onClick={() => dispatch(setTheme('dark'))}
             aria-label="Dark"
+            data-testid="dark-theme-btn"
           >
             <Moon size={16} />
           </button>
@@ -86,6 +88,7 @@ export function UserMenu({ width, leftOffset = 0, onRename, onSignOut, userDispl
       <button
         className="w-full flex items-center gap-2 px-2 py-1.5 text-sm text-red-500 hover:bg-sidebar-accent rounded-md"
         onClick={onSignOut}
+        data-testid="signout-btn"
       >
         <LogOut size={14} />
         <span>Sign out</span>

@@ -11,7 +11,7 @@ export interface ChartDataPoint {
   companies: number
 }
 
-// Helper function to fetch chart data using axios
+// Helper function to fetch chart data using axios 
 const fetchChartData = async (startDate: string, endDate: string): Promise<ChartDataPoint[]> => {
   const response = await api.get('/chart/data', {
     params: {
@@ -36,7 +36,6 @@ export const useChartData = () => {
     enabled: !!dateRange.from && !!dateRange.to,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    // Optimize for perceived performance
     networkMode: 'online',
     retry: 0,
     retryDelay: 0,
@@ -76,20 +75,17 @@ export const useChartDataPrefetch = () => {
           await queryClient.prefetchQuery({
             queryKey: ['chartData', startDate, endDate],
             queryFn: () => fetchChartData(startDate, endDate),
-            staleTime: 5 * 60 * 1000, // 5 minutes
+            staleTime: 5 * 60 * 1000,
           })
           console.log(`Successfully prefetched ${range.key} data`)
         } catch (error) {
           console.log(`Failed to prefetch ${range.key} data:`, error)
-          // Continue with other prefetches even if one fails
         }
       }
       
       console.log('Background prefetch completed!')
     }
-
-    // Start prefetching immediately in parallel with 1d data
-    const timeoutId = setTimeout(prefetchOtherRanges, 100) // Very short delay
+    const timeoutId = setTimeout(prefetchOtherRanges, 100)
     
     return () => clearTimeout(timeoutId)
   }, [queryClient])

@@ -14,12 +14,10 @@ export function OrgMenu({ width, onRename, leftOffset = 0, onClose, triggerRef }
   const menuRef = useRef<HTMLDivElement>(null)
   const style: CSSProperties = { width, left: leftOffset }
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node
       if (menuRef.current && !menuRef.current.contains(target)) {
-        // Don't close if clicking on the trigger button
         if (triggerRef?.current && triggerRef.current.contains(target)) {
           return
         }
@@ -41,6 +39,7 @@ export function OrgMenu({ width, onRename, leftOffset = 0, onClose, triggerRef }
       <button
         className="w-full flex items-center gap-2 px-2 py-1.5 text-sm text-sidebar-foreground hover:bg-sidebar-accent rounded-md"
         onClick={onRename}
+        data-testid="rename-org-btn"
       >
         <Pencil size={14} className="text-sidebar-foreground/70" />
         <span>Rename organization</span>

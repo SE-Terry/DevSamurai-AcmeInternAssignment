@@ -9,19 +9,16 @@ const getInitialTheme = (): 'light' | 'dark' => {
   try {
     const saved = localStorage.getItem('theme')
     if (saved === 'light' || saved === 'dark') {
-      // Apply theme to DOM immediately
       const root = document.documentElement
       root.classList.toggle('dark', saved === 'dark')
       return saved
     }
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
     const theme = prefersDark ? 'dark' : 'light'
-    // Apply theme to DOM immediately
     const root = document.documentElement
     root.classList.toggle('dark', theme === 'dark')
     return theme
   } catch {
-    // Apply default theme to DOM immediately
     const root = document.documentElement
     root.classList.add('dark')
     return 'dark'

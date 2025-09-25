@@ -14,7 +14,6 @@ export class ChartService {
     try {
       const whereCondition: Prisma.chart_dataWhereInput = {};
 
-      // Add date filtering if provided
       if (startDate || endDate) {
         whereCondition.date = {};
 
@@ -47,9 +46,8 @@ export class ChartService {
         },
       });
 
-      // Format dates to YYYY-MM-DD for frontend compatibility
       const formattedData = chartData.map((item) => ({
-        date: (item.date as Date).toISOString().split('T')[0], // Convert to YYYY-MM-DD
+        date: (item.date as Date).toISOString().split('T')[0],
         people: item.people,
         companies: item.companies,
       }));

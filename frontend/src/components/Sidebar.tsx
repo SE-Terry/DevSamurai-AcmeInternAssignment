@@ -35,19 +35,17 @@ export default function Sidebar() {
   const { state } = useSidebar()
   const isCollapsed = state === 'collapsed'
   
-  // Redux state
   const favorites = useSelector((state: RootState) => state.favorites.items)
   const orgName = useSelector((state: RootState) => state.organization.name)
   const user = useSelector((state: RootState) => state.auth.user)
   
   const dragIndexRef = useRef<number | null>(null)
-  // Local component state
+
   const [menuOpen, setMenuOpen] = useState(false)
   const [renameOpen, setRenameOpen] = useState(false)
   const orgBtnRef = useRef<HTMLButtonElement | null>(null)
   const [menuWidth, setMenuWidth] = useState<number | undefined>(undefined)
   
-  // React Hook Form for organization rename
   const orgForm = useForm<RenameOrganizationForm>({
     resolver: zodResolver(renameOrganizationSchema),
     defaultValues: {
@@ -57,7 +55,6 @@ export default function Sidebar() {
 
   useLayoutEffect(() => {
     if (menuOpen && orgBtnRef.current) {
-      // In collapsed mode, use a fixed width instead of the button width
       const width = isCollapsed ? 200 : orgBtnRef.current.getBoundingClientRect().width
       setMenuWidth(width)
     }
@@ -75,13 +72,11 @@ export default function Sidebar() {
     return () => window.removeEventListener('resize', onResize)
   }, [menuOpen, isCollapsed])
 
-  // User control (bottom) state
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const userBtnRef = useRef<HTMLButtonElement | null>(null)
   const [userMenuWidth, setUserMenuWidth] = useState<number | undefined>(undefined)
   const [userRenameOpen, setUserRenameOpen] = useState(false)
 
-  // React Hook Form for user rename
   const userForm = useForm<RenameUserForm>({
     resolver: zodResolver(renameUserSchema),
     defaultValues: {
@@ -91,7 +86,7 @@ export default function Sidebar() {
 
   useLayoutEffect(() => {
     if (userMenuOpen && userBtnRef.current) {
-      // In collapsed mode, use a fixed width instead of the button width
+
       const width = isCollapsed ? 200 : userBtnRef.current.getBoundingClientRect().width
       setUserMenuWidth(width)
     }
@@ -109,9 +104,9 @@ export default function Sidebar() {
     return () => window.removeEventListener('resize', onResize)
   }, [userMenuOpen, isCollapsed])
 
-  // Load cached user info from localStorage if Redux state is empty (conservative approach)
+  // Load cached user info from localStorage if Redux state is empty
   useEffect(() => {
-    // Only try to load cached data if we don't have user data in Redux yet
+    // Only try to load cached data if  don't have user data in Redux yet
     if (!user?.email) {
       try {
         const cachedUserStr = localStorage.getItem('user')
@@ -132,7 +127,7 @@ export default function Sidebar() {
     }
   }, [dispatch, user?.email])
 
-  // Auto-close menus when sidebar state changes (both collapse and expand)
+  // Auto-close menus when sidebar state changes
   useEffect(() => {
     setMenuOpen(false)
     setUserMenuOpen(false)
@@ -231,7 +226,7 @@ export default function Sidebar() {
 
         {/* Favorites */}
         <SidebarGroup className="mt-4">
-          {/* Always maintain fixed space for the label */}
+        
           <div className="mb-4" style={{ height: '24px' }}>
             {!isCollapsed && (
               <SidebarGroupLabel className="text-sm font-medium text-gray-400 transition-opacity duration-200">
@@ -314,6 +309,7 @@ export default function Sidebar() {
               tooltip="Invite member"
               className={`gap-3 text-muted-foreground hover:text-muted-foreground/80 hover:bg-secondary/40 focus-visible:outline-none rounded-md disabled-cursor ${isCollapsed ? 'justify-center' : 'justify-start'}`}
               onClick={(e) => e.preventDefault()}
+              data-testid="invite-member-btn"
             >
               <Plus size={18} />
               {!isCollapsed && <span>Invite member</span>}
@@ -324,6 +320,7 @@ export default function Sidebar() {
               tooltip="Feedback"
               className={`gap-3 text-muted-foreground hover:text-muted-foreground/80 hover:bg-secondary/40 focus-visible:outline-none rounded-md disabled-cursor ${isCollapsed ? 'justify-center' : 'justify-start'}`}
               onClick={(e) => e.preventDefault()}
+              data-testid="feedback-btn"
             >
               <MessageSquare size={18} />
               {!isCollapsed && <span>Feedback</span>}

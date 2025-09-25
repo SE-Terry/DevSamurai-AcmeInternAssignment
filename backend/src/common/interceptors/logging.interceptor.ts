@@ -16,7 +16,6 @@ export class LoggingInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     const { method, url, body } = request;
 
-    // Sanitize sensitive data from request body
     const sanitizedBody = this.sanitizeRequestBody(body);
 
     this.logger.log(`${method} ${url} - Request: ${JSON.stringify(sanitizedBody)}`);
@@ -64,7 +63,6 @@ export class LoggingInterceptor implements NestInterceptor {
 
     const sanitized = { ...response };
     
-    // Remove sensitive fields from response
     const sensitiveFields = ['password', 'passwordhash', 'token', 'secret'];
     
     sensitiveFields.forEach(field => {

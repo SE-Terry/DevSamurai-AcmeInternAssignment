@@ -1,98 +1,263 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Acme Dashboard - Terry - DevSamurai Intern Assignment Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A robust NestJS backend API for the Acme Dashboard application, featuring authentication, data management, and chart analytics with PostgreSQL database integration.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Live Demo
 
-## Description
+**Deployed on Railway:** [https://devsamurai-acmeinternassignment-production.up.railway.app](https://devsamurai-acmeinternassignment-production.up.railway.app)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🛠️ Tech Stack
 
-## Project setup
+- **Framework:** NestJS with TypeScript
+- **Database:** PostgreSQL with Prisma ORM
+- **Authentication:** JWT (JSON Web Tokens)
+- **Validation:** Class Validator & Class Transformer
+- **Security:** bcrypt for password hashing
+- **Code Quality:** ESLint & Prettier
 
-```bash
-$ npm install
+## ✨ Features
+
+### 🔐 Authentication System
+- **User Registration** with email validation
+- **Secure Login** with JWT tokens
+- **Password Hashing** using bcrypt
+- **Protected Routes** with JWT guards
+- **User Profile Management**
+
+### 📊 Chart Data API
+- **Lead Generation Analytics** with date range filtering
+- **RESTful API** for chart data
+- **Data Validation** with DTOs
+- **Protected Endpoints** requiring authentication
+
+### 🛡️ Security & Error Handling
+- **Global Exception Filter** for consistent error responses
+- **Request Logging** with custom interceptors
+- **CORS Configuration** for frontend integration
+- **Input Validation** with decorators
+
+## 📁 Project Structure
+
+```
+backend/
+├── prisma/                          # Database schema and migrations
+│   ├── schema.prisma                # Prisma database schema definition
+│   ├── seed.cjs                     # Database seeding script
+│   └── dummy_data.json              # Sample data for seeding
+├── src/
+│   ├── auth/                        # Authentication module
+│   │   ├── dto/                     # Data Transfer Objects
+│   │   │   ├── signin.dto.ts        # Sign-in request validation
+│   │   │   └── signup.dto.ts        # Sign-up request validation
+│   │   ├── auth.controller.ts       # Authentication endpoints
+│   │   ├── auth.module.ts           # Authentication module configuration
+│   │   ├── auth.service.ts          # Authentication business logic
+│   │   ├── auth.service.spec.ts     # Authentication service tests
+│   │   ├── auth.controller.spec.ts  # Authentication controller tests
+│   │   ├── jwt-auth.guard.ts        # JWT authentication guard
+│   │   └── jwt.strategy.ts          # JWT passport strategy
+│   ├── chart/                       # Chart data module
+│   │   ├── dto/                     # Data Transfer Objects
+│   │   │   └── chart-query.dto.ts   # Chart query validation
+│   │   ├── interfaces/              # TypeScript interfaces
+│   │   │   └── chart-response.interface.ts # Chart response types
+│   │   ├── chart.controller.ts      # Chart data endpoints
+│   │   ├── chart.module.ts          # Chart module configuration
+│   │   └── chart.service.ts         # Chart data business logic
+│   ├── common/                      # Shared utilities and configurations
+│   │   ├── exceptions/              # Custom exception classes
+│   │   │   └── auth.exceptions.ts   # Authentication-specific exceptions
+│   │   ├── filters/                 # Global exception filters
+│   │   │   └── global-exception.filter.ts # Global error handling
+│   │   ├── interceptors/            # Request/response interceptors
+│   │   │   └── logging.interceptor.ts # Request logging interceptor
+│   │   └── middleware/              # Custom middleware
+│   ├── prisma/                      # Database integration
+│   │   ├── prisma.module.ts         # Prisma module configuration
+│   │   ├── prisma.service.ts        # Prisma database service
+│   │   └── prisma.service.spec.ts   # Prisma service tests
+│   ├── app.controller.ts            # Main application controller
+│   ├── app.controller.spec.ts       # Main controller tests
+│   ├── app.module.ts                # Root application module
+│   ├── app.service.ts               # Main application service
+│   └── main.ts                      # Application entry point
+├── generated/                       # Generated Prisma client
+│   └── prisma/                      # Prisma client files
+├── dist/                            # Compiled JavaScript output
+├── .env                             # Environment variables (ignored)
+├── .env.example                     # Environment variables template
+├── .gitignore                       # Git ignore rules
+├── .prettierrc                      # Prettier configuration
+├── eslint.config.mjs                # ESLint configuration
+├── nest-cli.json                    # NestJS CLI configuration
+├── package.json                     # Dependencies and scripts
+├── package-lock.json                # Dependency lock file
+├── tsconfig.json                    # TypeScript configuration
+├── tsconfig.build.json              # TypeScript build configuration
+└── README.md                        # This file
 ```
 
-## Compile and run the project
+## 🚀 Getting Started
 
+### Prerequisites
+
+- Node.js 18+
+- PostgreSQL database
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd backend
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
 ```bash
-# development
-$ npm run start
+   cp .env.example .env
+   ```
+   
+   Configure the following variables:
+   ```env
+   DATABASE_URL="postgresql://username:password@host:port/database_name"
+   JWT_SECRET="your-super-secret-jwt-key-change-this-in-production"
+   ```
 
-# watch mode
-$ npm run start:dev
+4. **Set up the database**
+   ```bash
+   # Generate Prisma client
+   npx prisma generate
+   
+   # Push schema to database
+   npx prisma db push
+   
+   # Seed the database (optional)
+   npm run prisma:seed
+   ```
 
-# production mode
-$ npm run start:prod
+5. **Start the development server**
+   ```bash
+   npm run start:dev
+   ```
+
+6. **Open your browser**
+   Navigate to `http://localhost:3000`
+
+## 🔧 Configuration
+
+### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `DATABASE_URL` | PostgreSQL connection string | Required |
+| `JWT_SECRET` | Secret key for JWT tokens | Required |
+
+### Database Schema
+
+The application uses the following main entities:
+
+- **User**: User authentication and profile data
+- **Chart Data**: Analytics data for lead generation charts
+
+## 🏗️ Architecture
+
+### Module Structure
+
+- **AppModule**: Root module that imports all feature modules
+- **AuthModule**: Handles user authentication and JWT management
+- **ChartModule**: Provides chart data and analytics
+- **PrismaModule**: Database connection and ORM configuration
+
+### Security Features
+
+- **JWT Authentication**: Secure token-based authentication
+- **Password Hashing**: bcrypt for secure password storage
+- **Input Validation**: DTOs with class-validator decorators
+- **CORS Configuration**: Configured for frontend integration
+- **Global Exception Handling**: Consistent error responses
+
+### API Endpoints
+
+#### Authentication
+- `POST /auth/signup` - User registration
+- `POST /auth/signin` - User login
+- `GET /auth/me` - Get current user profile
+
+#### Chart Data
+- `GET /chart/data` - Get chart data with date filtering
+
+## 🚀 Deployment
+
+### Railway Deployment
+
+1. **Connect your repository** to Railway
+2. **Set environment variables** in Railway dashboard
+3. **Configure build command**: `npm run build`
+4. **Configure start command**: `npm run start:prod`
+5. **Deploy** automatically on push to main branch
+
+### Environment Variables for Production
+
+```env
+DATABASE_URL="your-production-database-url"
+JWT_SECRET="your-production-jwt-secret"
 ```
 
-## Run tests
+### Build Process
+
+The build process includes:
+1. **Prisma Client Generation** - Generates database client
+2. **TypeScript Compilation** - Compiles to JavaScript
+3. **Dependency Installation** - Installs production dependencies
+
+## 🔒 Security Considerations
+
+- **JWT Secret**: Use a strong, unique secret in production
+- **Database Security**: Use connection pooling and SSL
+- **CORS**: Configure appropriate origins for production
+- **Input Validation**: All inputs are validated and sanitized
+- **Error Handling**: Sensitive information is not exposed in errors
+
+## 📊 Database Management
+
+### Prisma Commands
 
 ```bash
-# unit tests
-$ npm run test
+# Generate Prisma client
+npx prisma generate
 
-# e2e tests
-$ npm run test:e2e
+# Push schema changes to database
+npx prisma db push
 
-# test coverage
-$ npm run test:cov
+# Open Prisma Studio (database GUI)
+npx prisma studio
+
+# Reset database
+npx prisma db push --force-reset
+
+# Seed database with sample data
+npm run prisma:seed
 ```
 
-## Deployment
+### Schema Changes
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+When modifying the Prisma schema:
+1. Update `prisma/schema.prisma`
+2. Run `npx prisma db push` to apply changes
+3. Run `npx prisma generate` to update the client
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🙏 Acknowledgments
 
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- [NestJS](https://nestjs.com/) for the amazing framework
+- [Prisma](https://www.prisma.io/) for the excellent ORM
+- [Railway](https://railway.app/) for seamless deployment
+- [DevSamurai](https://devsamurai.vn/) for the internship opportunity

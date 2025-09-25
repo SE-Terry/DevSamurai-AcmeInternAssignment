@@ -22,7 +22,6 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async getProfile(@Request() req) {
-    // User is attached to request by JWT strategy
     return {
       user: req.user,
     };
