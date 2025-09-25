@@ -9,12 +9,23 @@ async function bootstrap() {
   
   // Enable CORS
   app.enableCors({
-    origin: [
-      'http://localhost:5173', // Local development
-      'http://localhost:3000', // Local development
-      'https://dev-samurai-acme-intern-assignment.vercel.app/', // Vercel production
-      'https://*.vercel.app', // All Vercel preview deployments
-    ],
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        'http://localhost:5173', // Local development
+        'http://localhost:3000', // Local development
+        'https://dev-samurai-acme-intern-assignment.vercel.app/', // Vercel production
+        'https://devsamurai-acmeinternassignment-production.up.railway.app/', // Railway production
+      ];
+      
+      // Allow any Vercel preview deployment
+      const isVercelDomain = origin && origin.includes('.vercel.app');
+      
+      if (!origin || allowedOrigins.includes(origin) || isVercelDomain) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,

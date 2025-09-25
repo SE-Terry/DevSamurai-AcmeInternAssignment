@@ -108,7 +108,7 @@ backend/
 ### Installation
 
 1. **Clone the repository**
-   ```bash
+```bash
    git clone <repository-url>
    cd backend
    ```
@@ -130,7 +130,7 @@ backend/
    ```
 
 4. **Set up the database**
-   ```bash
+```bash
    # Generate Prisma client
    npx prisma generate
    
