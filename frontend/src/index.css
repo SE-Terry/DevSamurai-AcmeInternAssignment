@@ -168,6 +168,22 @@ body {
   cursor: not-allowed !important;
 }
 
+/* Specific override for disabled buttons */
+.disabled-cursor:disabled,
+.disabled-cursor[disabled],
+button.disabled-cursor:disabled,
+button.disabled-cursor[disabled] {
+  cursor: not-allowed !important;
+}
+
+.disabled-cursor:hover,
+.disabled-cursor:disabled:hover,
+.disabled-cursor[disabled]:hover,
+button.disabled-cursor:disabled:hover,
+button.disabled-cursor[disabled]:hover {
+  cursor: not-allowed !important;
+}
+
 /* Force SVG icons to inherit text color */
 .icon-inherit {
   color: var(--muted-foreground) !important;

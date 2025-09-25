@@ -183,24 +183,22 @@ export function AuthForm({ mode }: AuthFormProps) {
                   <div className="flex items-center justify-between">
                     <FormLabel>Password</FormLabel>
                     {!isSignUp ? (
-                      <Button
+                      <button
                         type="button"
-                        variant="link"
-                        size="sm"
-                        className="px-0 h-auto"
+                        className="text-sm text-primary hover:underline px-0 h-auto opacity-50 disabled-cursor"
+                        disabled
                         onClick={() => console.log("Forgot password clicked")}
                       >
                         Forgot password?
-                      </Button>
+                      </button>
                     ) : (
-                      <Button
-                        variant="link"
-                        size="sm"
-                        className="px-0 h-auto invisible"
+                      <button
+                        type="button"
+                        className="text-sm text-primary px-0 h-auto invisible disabled-cursor"
                         disabled
                       >
                         Forgot password?
-                      </Button>
+                      </button>
                     )}
                   </div>
                   <FormControl>

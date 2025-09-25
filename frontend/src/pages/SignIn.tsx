@@ -10,11 +10,12 @@ export default function SignInPage() {
 
       <div className="w-full max-w-md">
         <div className="flex items-center justify-center mb-8">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-foreground rounded-md flex items-center justify-center">
-              <span className="text-background font-bold text-lg">A</span>
-            </div>
-            <span className="text-xl font-semibold text-foreground">Acme</span>
+          <div className="bg-white dark:bg-gray-100 rounded-lg p-4">
+            <img 
+              src="/DevSamuraiBanner.png" 
+              alt="DevSamurai" 
+              className="h-12 w-auto object-contain"
+            />
           </div>
         </div>
 
